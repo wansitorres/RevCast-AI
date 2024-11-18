@@ -1,0 +1,26 @@
+id,date,revenue,profit,product_id,product_category,customer_id,customer_name,customer_age,customer_gender,sales_channel,discount,return_rate,customer_feedback
+1,2024-11-01,344.46,67.6,2053,Electronics,54543,Samantha Perez,20,Non-Binary,Online,31.56,0.11,1
+2,2024-11-02,237.42,38.19,44556,Sports,49376,Matthew Doyle,24,Male,Online,16.78,0.17,1
+3,2024-11-03,296.57,95.01,98969,Sports,69582,Scott Wilson,53,Male,In-store,9.91,0.16,4
+4,2024-11-04,59.42,9.4,21575,Home & Kitchen,29757,Maria Leon,50,Female,Online,7.71,0.03,4
+5,2024-11-05,212.18,75.78,91172,Beauty,75636,Mitchell Miller,48,Male,Online,43.46,0.06,1
+6,2024-11-06,139.16,53.38,25632,Sports,25238,Mrs. Monique Franklin MD,62,Male,Online,23.45,0.19,3
+7,2024-11-07,121.79,40.14,70682,Electronics,39624,Stephen Owens,50,Non-Binary,In-store,49.58,0.04,2
+8,2024-11-08,417.53,166.43,19222,Sports,17494,Mr. Robert Cole,62,Non-Binary,Online,20.2,0.17,1
+9,2024-11-09,78.05,9.89,96611,Sports,56246,Rachel Watson,60,Non-Binary,In-store,16.44,0.11,4
+10,2024-11-10,93.5,22.59,17630,Sports,39220,Jasmine Zavala,58,Non-Binary,In-store,34.22,0.06,1
+11,2024-11-11,374.72,68.12,40713,Clothing,83272,Curtis Young,24,Non-Binary,Online,1.19,0.15,2
+12,2024-11-12,167.33,52.78,10818,Toys,91496,Richard Payne,45,Male,Online,43.9,0.03,4
+13,2024-11-13,269.43,73.77,75829,Beauty,21574,Ryan Smith,25,Male,In-store,18.79,0.07,1
+14,2024-11-14,331.9,41.55,72134,Clothing,72967,Jerry Gutierrez,29,Non-Binary,Online,7.01,0.0,4
+15,2024-11-15,266.15,86.88,12313,Sports,24107,Stephanie Pierce,31,Male,In-store,31.26,0.17,4
+16,2024-11-16,47.8,5.17,60611,Clothing,75455,Benjamin Miller,51,Male,In-store,3.66,0.18,1
+17,2024-11-17,71.69,24.62,77806,Electronics,8907,Joseph Anderson,36,Male,In-store,27.92,0.09,3
+18,2024-11-18,445.11,97.93,62194,Beauty,28747,Heather Clark,48,Female,In-store,20.82,0.17,4
+19,2024-11-19,92.03,9.5,32551,Clothing,38578,Darryl Chase,28,Non-Binary,In-store,40.16,0.13,4
+20,2024-11-20,217.59,33.07,50997,Sports,7988,Clifford Burch,62,Female,In-store,14.13,0.12,5
+21,2024-11-21,385.28,117.95,86227,Sports,68596,Patricia Hunt,21,Male,Online,6.06,0.03,5
+22,2024-11-22,113.02,41.92,34050,Beauty,68053,Diamond Gilbert,25,Non-Binary,Online,45.95,0.16,2
+23,2024-11-23,70.79,14.9,21960,Electronics,38357,Matthew Walker MD,50,Male,In-store,45.69,0.12,1
+24,2024-11-24,456.91,54.02,80361,Clothing,52649,Alexander Gallagher,57,Female,Online,47.49,0.19,2
+25,2024-11-25,83.43,8.99,80046,Toys,22601,Amy Flores,64,Non-Binary,In-store,6.17,0.14,5
