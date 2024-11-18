@@ -120,6 +120,7 @@ def forecast_revenue(data, sales_column):
     # Call the OpenAI API to generate the forecast
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
+        temperature= 0.1,
         messages=[
             {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
@@ -184,6 +185,7 @@ def generate_explanation(data, forecast):
 
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
+        temperature= 0.3,
         messages=[
             {"role": "user", "content": prompt}
         ]
