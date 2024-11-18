@@ -1,0 +1,9 @@
+openai == 0.28.1
+numpy
+pandas
+faiss-cpu
+streamlit
+streamlit-option-menu
+Pillow
+matplotlib
+langchain-community
