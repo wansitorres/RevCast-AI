@@ -114,41 +114,7 @@ def forecast_revenue(data, sales_column):
     sales_data = data[sales_column].tolist()
     sales_data_str = ', '.join(map(str, sales_data))
 
-    # Create a prompt for the GPT model
-    prompt = f"Given the following sales data: {sales_data_str}, forecast the next 12 periods of revenue. Return only the forecasted values as a comma-separated string."
-
-    # Call the OpenAI API to generate the forecast
-    response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
-        temperature= 0.1,
-        messages=[
-            {"role": "system", "content": System_Prompt_Forecast},
-            {"role": "user", "content": prompt}
-        ]
-    )
-
-    # Extract the forecasted values from the response
-    forecasted_values = response['choices'][0]['message']['content']
-
-    # Print the response for debugging
-    print("API Response:", forecasted_values)
-
-    # Convert the forecasted values to a list of floats
-    try:
-        forecasted_data = [float(value) for value in forecasted_values.split(',')]
-    except ValueError as e:
-        st.error("Error parsing forecasted values. Please check the API response.")
-        print("Error:", e)
-        return None
-
-    return forecasted_data
-
-# Function to generate explanation using OpenAI API
-def generate_explanation(data, forecast):
-    # Prepare the historical data for the prompt
-    historical_data_str = data.to_string(index=False)  # Convert DataFrame to string for better readability
-    forecast_str = ', '.join(map(str, forecast))  # Convert forecasted values to a string
-
+    # RAG Implementation
     # Load and prepare data for RAG
     dataframed = pd.read_csv('https://raw.githubusercontent.com/wansitorres/RevCast-AI/refs/heads/main/RevCast_Data.csv')
     dataframed['combined'] = dataframed.apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
@@ -161,14 +127,50 @@ def generate_explanation(data, forecast):
     index = faiss.IndexFlatL2(embedding_dim)
     index.add(embeddings_np)
 
-    # Generate embedding for the forecast string
-    query_embedding = get_embedding(forecast_str, engine='text-embedding-3-small')
+    # Generate embedding for the sales data string
+    query_embedding = get_embedding(sales_data_str, engine='text-embedding-3-small')
     query_embedding_np = np.array([query_embedding]).astype('float32')
 
     # Search for relevant documents
     _, indices = index.search(query_embedding_np, 2)
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
+
+    # Create a prompt for the GPT model, including the context
+    prompt = f"""
+    Given the following sales data: {sales_data_str}, and the context: {context}, forecast the next 12 periods of revenue. 
+    Return only the forecasted values as a comma-separated string.
+    """
+
+    # Call the OpenAI API to generate the forecast
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        temperature=0.1,
+        messages=[
+            {"role": "system", "content": System_Prompt_Forecast},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    # Extract the forecasted values from the response
+    forecasted_values = response['choices'][0]['message']['content']
+    
+    # Convert the forecasted values to a list of floats
+    try:
+        forecasted_data = [float(value) for value in forecasted_values.split(',')]
+    except ValueError as e:
+        st.error("Error parsing forecasted values. Please check the API response.")
+        print("Error:", e)
+        return None
+
+    # Return both forecasted data and context for insights
+    return forecasted_data, context
+
+# Function to generate explanation using OpenAI API
+def generate_explanation(data, forecast):
+    # Prepare the historical data for the prompt
+    historical_data_str = data.to_string(index=False)  # Convert DataFrame to string for better readability
+    forecast_str = ', '.join(map(str, forecast))  # Convert forecasted values to a string
 
     # Modify the prompt to focus on how the forecast was derived and analyze historical trends
     prompt = f"""
@@ -178,14 +180,11 @@ def generate_explanation(data, forecast):
     {historical_data_str}
     
     2. Based on the historical data, explain how the forecasted revenue values were derived: {forecast_str}.
-    
-    3. Use the following context to enhance your analysis and explanation, but do not assume it is directly related to the user's input data:
-    {context}
     """
 
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.3,
+        temperature=0.3,
         messages=[
             {"role": "user", "content": prompt}
         ]
@@ -254,7 +253,7 @@ elif options == "RevCast AI":
 
     if 'data' in locals() and 'sales_column' in locals():
         if st.button("Forecast Revenue"):
-            forecast = forecast_revenue(data, sales_column)
+            forecast, context = forecast_revenue(data, sales_column)
             st.write("Forecasted Revenue:", forecast)
 
             explanation = generate_explanation(data, forecast)
